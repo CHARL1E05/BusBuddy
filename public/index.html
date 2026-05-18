@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <style>
+            #map {
+                width: 100vw;
+                height: 90vh;
+            }
+            body {
+                margin: 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <script type="module" src="app.js"></script>
+        <div id="bar-bottom" style="display: flex; flex-direction: row; justify-content: space-between; width: 100vw; height: 10vh;">
+            <div id="bar-bottom-left" style="display: flex; flex-direction: row; justify-content: flex-start;">
+                <h1 style="font-family: Arial, Helvetica, sans-serif;">Bus Buddy</h1>
+                <div id="O405-toggle" style="display: flex; align-items: center;">
+                    <input id="O405" type="checkbox" checked="true">
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Mercedes-Benz O405</p>
+                </div>
+                <div id="O405nh-toggle" style="display: flex; align-items: center;">
+                    <input id="O405nh" type="checkbox" checked="true">
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Mercedes-Benz O405NH</p>
+                </div>
+                <div id="B7rle-toggle" style="display: flex; align-items: center;">
+                    <input id="B7rle" type="checkbox">
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Volvo B7RLE CB60</p>
+                </div>
+                <div id="B10ble-toggle" style="display: flex; align-items: center;">
+                    <input id="B10ble" type="checkbox">
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Volvo B10BLE CB60</p>
+                </div>
+            </div>
+            <div id="bar-bottom-right" style="display: flex; flex-direction: row; justify-content: flex-end;">
+                <div id="route-toggle" style="display: flex; align-items: center;">
+                    <input id="route" type="checkbox">
+                    <p style="font-family: Arial, Helvetica, sans-serif;">Route Services</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
