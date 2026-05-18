@@ -1,4 +1,4 @@
-const token = "";
+const token = process.env.TFNSW_API_KEY;
 const PORT = parseInt(process.env.PORT || "3000");
 const HOST = process.env.IP || '127.0.0.1';
 import cors from 'cors';
