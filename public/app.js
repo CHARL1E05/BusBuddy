@@ -19,7 +19,7 @@ const headGtfs = await fetch(`/api/gtfs/head`);
 const lastModified = await headGtfs.json();
 if (!localStorage.getItem("last-modified-gtfs") || lastModified != localStorage.getItem("last-modified-gtfs")) {
   localStorage.setItem("last-modified-gtfs", `${lastModified}`);
-  const gtfs = await fetch(`${SERVER_URL}/api/gtfs`);
+  const gtfs = await fetch(`/api/gtfs`);
 }
 
 var markers = {};
