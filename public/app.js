@@ -15,7 +15,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 // Get GTFS data for mapping
-const headGtfs = await fetch(`${SERVER_URL}/api/gtfs/head`);
+const headGtfs = await fetch(`/api/gtfs/head`);
 const lastModified = await headGtfs.json();
 if (!localStorage.getItem("last-modified-gtfs") || lastModified != localStorage.getItem("last-modified-gtfs")) {
   localStorage.setItem("last-modified-gtfs", `${lastModified}`);
@@ -39,20 +39,21 @@ async function fetchBuses() {
       query.push(false);
     }
   }
-  const result = await fetch(`${SERVER_URL}/api/buses?o405=${query[0]}&o405nh=${query[1]}&b7rle=${query[2]}&b10ble=${query[3]}&route=${query[4]}`);
+  const result = await fetch(`/api/buses?o405=${query[0]}&o405nh=${query[1]}&b7rle=${query[2]}&b10ble=${query[3]}&route=${query[4]}`);
   const data = await result.json();
   for (const bus of data) {
     markers[bus[3]] = L.marker([bus[0], bus[1]]).addTo(map);
     markers[bus[3]].on('click', async () => {
-      markers[bus[3]].bindPopup(`Route ${bus[2]}\n${bus[3]}\n${bus[4]}\n${bus[6]}`);
+      markers[bus[3]].bindPopup(`Route ${bus[2]}<br>${bus[3]}<br>${bus[4]}<br><b>${bus[6]}</b>`);
       // Bring up route map using route from bus[2]
+      /* Removing this code until I've made it more efficient with SQL
       const currShape = await fetch(`${SERVER_URL}/api/gtfs/${bus[5]}`);
       // Plot the array, where each entry looks like [lat, long]
       const line = await currShape.json();
       var currLine = L.polyline(line, {color: 'blue'}).addTo(map);
       map.on('click', () => {
         map.removeLayer(currLine);
-      })
+      })*/
     })
   }
 }

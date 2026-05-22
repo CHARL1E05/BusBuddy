@@ -1,6 +1,3 @@
-const token = process.env.TFNSW_API_KEY;
-const PORT = parseInt(process.env.PORT || "3000");
-const HOST = process.env.IP || '127.0.0.1';
 import cors from 'cors';
 import express from 'express';
 import dotenv from 'dotenv';
@@ -9,18 +6,22 @@ import fs from 'fs';
 import StreamZip from 'node-stream-zip';
 import readCsv from 'gtfs-utils/read-csv.js';
 dotenv.config();
+const token = process.env.TFNSW_API_KEY;
+const PORT = parseInt(process.env.PORT || "3000");
+const HOST = process.env.IP || '127.0.0.1';
 const app = express();
+const webhook = process.env.DISCORD_WEBHOOK;
 app.use(express.static('public'));
 app.use(cors());
 const specialRoutes = [
     ["3036", "Forms 590 to Hornsby (9:16am to 9:35am) and 590 to Pennant Hills (9:40am to 9:56am)"],
     ["3587", "Forms 642X to Dural Round Corner (5:30pm to 6:39pm)"],
     ["3141", "Forms 626 to Cherrybrook Station (8:30am to 9:45am)"],
+    ["5548", "Forms 668 to Glossodia (4:28pm to 5:05pm)"],
     ["5631", "Forms 5548 and then 668 to Glossodia (4:28pm to 5:05pm)"],
     ["4569", "Forms 780 to Mt Druitt (5:04pm to 5:46pm) and then 776 to Penrith (5:57pm to 6:54pm)"],
     ["4609", "Forms 795 to Warragamba (4:33pm to 5:21pm)"],
     ["5578", "Forms 677 to Penrith (5:28pm to 6:18pm)"],
-    ["5085", "Forms 680 to Richmond via Bowen Mountain (8:33am to 9:24am)"],
     ["5116", "Forms 672 to Windsor via Pitt Town (8:40am to 9:16am)"],
     ["5586", "Forms 677 to Londonderry (3:50pm to 4:25pm), 672 Windsor Loop via Pitt Town (4:49pm to 5:45pm)"],
 ]
@@ -169,15 +170,25 @@ app.get('/api/buses', async (req, res) => {
             }
             let specialRoute = "";
             for (let i = 0; i < specialRoutes.length; i++) {
-                if (specialRoutes[i][0] == route) {
+                if (specialRoutes[i][0] == RegExp("_(.*)$").exec(entity.vehicle.trip.routeId)[1]) {
                     specialRoute = specialRoutes[i][1];
                     console.log("WILL BE A ROUTE SERVICE\n");
                     break;
                 }
             }
-            if (routeService && req.query.route === 'true' || req.query.route === 'false') {
+            if (routeService && req.query.route === 'true' || req.query.route === 'false' || specialRoute !== "") {
                 result.push([entity.vehicle.position.latitude, entity.vehicle.position.longitude, RegExp("_(.*)$").exec(entity.vehicle.trip.routeId)[1], entity.vehicle.vehicle.licensePlate, busType, entity.vehicle.trip.tripId, specialRoute]);
             }
+            // Push each of these results to discord channel
+            const response2 = await fetch(webhook, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: `${busType} is on a ${RegExp("_(.*)$").exec(entity.vehicle.trip.routeId)[1]} service @everyone`
+                })
+            });
         }
         if (!count) {
             console.log("No interesting buses found");
