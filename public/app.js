@@ -19,7 +19,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const lastModified = await headGtfs.json();
 if (!localStorage.getItem("last-modified-gtfs") || lastModified != localStorage.getItem("last-modified-gtfs")) {
   localStorage.setItem("last-modified-gtfs", `${lastModified}`);*/
-  const gtfs = await fetch(`/api/gtfs`);
+const gtfs = await fetch(`/api/gtfs`);
+console.log(await gtfs);
 //}
 
 var markers = {};
