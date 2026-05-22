@@ -15,12 +15,12 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 // Get GTFS data for mapping
-const headGtfs = await fetch(`/api/gtfs/head`);
+/*const headGtfs = await fetch(`/api/gtfs/head`);
 const lastModified = await headGtfs.json();
 if (!localStorage.getItem("last-modified-gtfs") || lastModified != localStorage.getItem("last-modified-gtfs")) {
-  localStorage.setItem("last-modified-gtfs", `${lastModified}`);
+  localStorage.setItem("last-modified-gtfs", `${lastModified}`);*/
   const gtfs = await fetch(`/api/gtfs`);
-}
+//}
 
 var markers = {};
 fetchBuses();
