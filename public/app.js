@@ -7,6 +7,8 @@ for (const checkbox of checkboxes) {
   checkbox.addEventListener('click', async () => {
     await fetchBuses();
   })
+  // disable data entry while loading
+  checkbox.disabled = true;
 }
 
 // We have to set up the tiles for the map afterwards
@@ -20,7 +22,9 @@ const lastModified = await headGtfs.json();
 if (!localStorage.getItem("last-modified-gtfs") || lastModified != localStorage.getItem("last-modified-gtfs")) {
   localStorage.setItem("last-modified-gtfs", `${lastModified}`);*/
 const gtfs = await fetch(`/api/gtfs`);
-console.log(await gtfs);
+for (const checkbox of checkboxes) {
+  checkbox.removeAttribute('disabled');
+}
 //}
 
 var markers = {};
