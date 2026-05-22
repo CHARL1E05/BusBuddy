@@ -26,9 +26,13 @@ var markers = {};
 fetchBuses();
 
 async function fetchBuses() {
-  for (const marker of Object.entries(markers)) {
-    //marker[1] is the value (marker) of the key value pair
-    marker[1].remove();
+  try {
+    for (const marker of Object.entries(markers)) {
+      //marker[1] is the value (marker) of the key value pair
+      marker[1].remove();
+    }
+  } catch (e) {
+    
   }
   markers = {};
   const query = [];
