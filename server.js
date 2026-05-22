@@ -12,7 +12,7 @@ const PORT = parseInt(process.env.PORT || "3000");
 const HOST = process.env.IP || '127.0.0.1';
 const app = express();
 const webhook = process.env.DISCORD_WEBHOOK;
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(cors());
 const specialRoutes = [
     ["3036", "Forms 590 to Hornsby (9:16am to 9:35am) and 590 to Pennant Hills (9:40am to 9:56am)"],
