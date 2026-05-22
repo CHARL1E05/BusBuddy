@@ -253,11 +253,11 @@ app.get(`/api/gtfs/:tripId`, async (req, res) => {
     }
 });
 
-/*const server = app.listen(3000, () => {
+const server = app.listen(3000, () => {
     // DO NOT CHANGE THIS LINE
     console.log(`⚡️ Server started on port ${PORT}`);
 });
-
+/*
 // For coverage, handle Ctrl+C gracefully
 process.on('SIGINT', () => {
     server.close(() => {
@@ -265,5 +265,3 @@ process.on('SIGINT', () => {
         process.exit();
     });
 });*/
-
-export default app;
