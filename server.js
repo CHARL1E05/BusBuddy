@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import GtfsRealtimeBindings from 'gtfs-realtime-bindings';
 import fs from 'fs';
+import path from 'path';
 import StreamZip from 'node-stream-zip';
 import readCsv from 'gtfs-utils/read-csv.js';
 dotenv.config();
@@ -11,7 +12,7 @@ const PORT = parseInt(process.env.PORT || "3000");
 const HOST = process.env.IP || '127.0.0.1';
 const app = express();
 const webhook = process.env.DISCORD_WEBHOOK;
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 const specialRoutes = [
     ["3036", "Forms 590 to Hornsby (9:16am to 9:35am) and 590 to Pennant Hills (9:40am to 9:56am)"],
